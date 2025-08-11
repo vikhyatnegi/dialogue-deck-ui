@@ -120,49 +120,51 @@ export const ChatInterface = ({ onMenuClick }: ChatInterfaceProps) => {
         </div>
       </header>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex items-start space-x-3 ${
-              message.type === "user" ? "flex-row-reverse space-x-reverse" : ""
-            }`}
-          >
+      {/* Centered Chat Container */}
+      <div className="flex-1 flex flex-col justify-center max-w-4xl mx-auto w-full">
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+          {messages.map((message) => (
             <div
-              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                message.type === "user"
-                  ? "bg-chat-user-bg"
-                  : "bg-chat-bot-bg border border-border"
+              key={message.id}
+              className={`flex items-start space-x-3 ${
+                message.type === "bot" ? "flex-row-reverse space-x-reverse" : ""
               }`}
             >
-              {message.type === "user" ? (
-                <User className="w-4 h-4 text-chat-user-foreground" />
-              ) : (
-                <Bot className="w-4 h-4 text-chat-bot-foreground" />
-              )}
+              <div
+                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                  message.type === "user"
+                    ? "bg-chat-user-bg"
+                    : "bg-chat-bot-bg border border-border"
+                }`}
+              >
+                {message.type === "user" ? (
+                  <User className="w-4 h-4 text-chat-user-foreground" />
+                ) : (
+                  <Bot className="w-4 h-4 text-chat-bot-foreground" />
+                )}
+              </div>
+              <div
+                className={`max-w-[80%] p-3 rounded-lg shadow-message ${
+                  message.type === "user"
+                    ? "bg-chat-user-bg text-chat-user-foreground"
+                    : "bg-chat-bot-bg text-chat-bot-foreground border border-border ml-auto"
+                }`}
+              >
+                <p className="text-sm leading-relaxed">{message.content}</p>
+                <span className="text-xs opacity-70 mt-1 block">
+                  {message.timestamp.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </div>
             </div>
-            <div
-              className={`max-w-[80%] p-3 rounded-lg shadow-message ${
-                message.type === "user"
-                  ? "bg-chat-user-bg text-chat-user-foreground ml-auto"
-                  : "bg-chat-bot-bg text-chat-bot-foreground border border-border"
-              }`}
-            >
-              <p className="text-sm leading-relaxed">{message.content}</p>
-              <span className="text-xs opacity-70 mt-1 block">
-                {message.timestamp.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Input */}
-      <div className="p-4 border-t border-border bg-chat-header-bg/50 backdrop-blur-sm">
+        {/* Input */}
+        <div className="p-4 border-t border-border bg-chat-header-bg/50 backdrop-blur-sm">
         <div className="flex items-end space-x-2">
           <div className="flex-1 relative">
             <Textarea
@@ -212,6 +214,7 @@ export const ChatInterface = ({ onMenuClick }: ChatInterfaceProps) => {
             Speech recognition not supported in this browser
           </div>
         )}
+        </div>
       </div>
     </div>
   );
